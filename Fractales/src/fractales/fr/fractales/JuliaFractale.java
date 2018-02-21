@@ -2,59 +2,75 @@ package fractales.fr.fractales;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
-public class JuliaFractale {
+public class JuliaFractale implements Fractale {
 
-	private final int LARGEUR; 
-	private final int HAUTEUR;
-	private final int ITERATIONS; 
-
-	private final float COEFF_L = (float) 2.0; // plus ce coefficient est grand plus on décale le dessin vers la gauche
-	private final float COEFF_H = (float) 2.0; // plus ce coefficient est grand plus on décale le dessin vers le bas
-												// => (2,2) centré
+	private int width; 
+	private int height;
+	private int iterations; 
 	private BufferedImage buffer; // Image tampon
 
 	// PARAMETRES MODIFIABLES via MAIN
 	private final float Im_C;
 	private final float Re_C;
-	private float ECHELLE;
+	private int scale;
 	private final float estompage;
-	private final float couleur;
+	private final float COLOR;
+	private float centreX;
+	private float centreY;
+	private float maxX;
+	private float minX;
+	private float maxY;
+	private float minY;
+	
+	
 
-	public JuliaFractale(final float reC, final float imC, final int echelle, int largeur, int hauteur,
-			final float estompage,final float couleur,final int ITERATIONS) {
+	public JuliaFractale(final float ReC, final float ImC, int scale, int width, int height,
+			final float estompage,final float COLOR,int iterations) {
     // On instancie le buffer : dimensions et coloration
-		buffer = new BufferedImage(largeur, hauteur, BufferedImage.TYPE_INT_RGB);
+		buffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		
 	// Initialisation des paramètres du dessin
-		this.Im_C = imC;
-		this.Re_C = reC;
-		this.ECHELLE = echelle;
-		this.LARGEUR = largeur;
-		this.HAUTEUR = hauteur;
+		this.Im_C = ImC;
+		this.Re_C = ReC;
+		this.scale = scale;
+		this.width = width;
+		this.height = height;
 		this.estompage = estompage;
-		this.couleur = couleur;
-		this.ITERATIONS = ITERATIONS;
+		this.COLOR = COLOR;
+		this.iterations = iterations;
+		
+		centreX = 0;
+		centreY = 0;
+		calcMinMax();
 	}
 
-	public BufferedImage getImage() {
-		julia();
+	public BufferedImage getDrawing() {
+		draw();
 		return buffer;
 	}
 
-	private void julia() {
-		for (int x = 0; x < LARGEUR; x += 1)
-			for (int y = 0; y < HAUTEUR; y += 1) {
-				final int color = calculCouleur((x - LARGEUR / COEFF_L) / ECHELLE, (y - HAUTEUR / COEFF_H) / ECHELLE);
-				buffer.setRGB(x, y, color);
-				
+	private void draw() {
+		float X,Y;
+		for (int x = 0; x < width; x += 1) {
+			X = (float) x/scale+minX;
+			for (int y = 0; y < height; y += 1) {
+				Y = (float) y/scale + minY;
+				final int COLOR = colorCalcul(X,Y);
+				buffer.setRGB(x, y, COLOR);
 			}
+		}
 	}
+	
+	
+		
 
-	private int calculCouleur(float zx, float zy) {
+	private int colorCalcul(float zx, float zy) {
 		int n = 0;
 
-		for (; n < ITERATIONS; n++) {
+		for (; n < iterations; n++) {
 
 			/*
 			 * On applique la formule générale pour générer l'ensemble de Julia (on parcourt
@@ -74,19 +90,119 @@ public class JuliaFractale {
 				break;
 			}
 		}
-		if (n == ITERATIONS)
+		if (n == iterations)
 			return 0x00000000; // Après 100 itérations la suite (avec cette valeur de z0) ne semble pas
 								// diverger donc on considère qu'elle converge (parfois approximation fausse) =>
 								// noir
-		return Color.HSBtoRGB(couleur - (float) estompage * n / ITERATIONS, 0.6f, 1);
+		return Color.HSBtoRGB(COLOR - (float) estompage * n / iterations, 0.6f, 1);
 	}
 
-	public int getLargeur() {
-		return LARGEUR;
+	public int getWidth() {
+		return width;
 	}
 
-	public int getHauteur() {
-		return HAUTEUR;
+	public int getHeight() {
+		return height;
 	}
 
-}
+	public int getIterations() {
+		return iterations;
+	}
+
+	public int getScale() {
+		return scale;
+	}
+
+	public float getCentreX() {
+		return centreX;
+	}
+
+	public float getCentreY() {
+		return centreY;
+	}
+
+	public float getMaxX() {
+		return maxX;
+	}
+
+	public float getMinX() {
+		return minX;
+	}
+
+	public float getMaxY() {
+		return maxY;
+	}
+
+	public float getMinY() {
+		return minY;
+	}
+
+	public void setIterations(int iterations) {
+		this.iterations = iterations;
+	}
+
+	public void setScale(int scale) {
+		this.scale = scale;
+	}
+
+	public void setCentreX(float centreX) {
+		this.centreX = centreX;
+	}
+
+	public void setCentreY(float centreY) {
+		this.centreY = centreY;
+	}
+
+	public void setMaxX(float maxX) {
+		this.maxX = maxX;
+	}
+
+	public void setMinX(float minX) {
+		this.minX = minX;
+	}
+
+	public void setMaxY(float maxY) {
+		this.maxY = maxY;
+	}
+
+	public void setMinY(float minY) {
+		this.minY = minY;
+	}
+	
+	public int setWidth() {
+		return width;
+	}
+
+	public int setHeight() {
+		return height;
+	}
+
+	@Override
+	public void setHeight(int height) {
+		this.height = height;
+		
+	}
+
+	@Override
+	public void setWidth(int width) {
+		this.width = width;
+		
+	}
+
+	@Override
+	public void setBuffer(BufferedImage bufferedImage) {
+		this.buffer = bufferedImage;
+	}
+
+	@Override
+	public void calcMinMax() {
+			maxX = centreX + (float) 0.5 * width / scale;
+			minX = centreX - (float) 0.5 * width / scale;
+			
+			maxY = centreY + (float) 0.5 * height / scale;
+			minY = centreY - (float) 0.5 * height / scale;
+			
+			
+	}
+		
+}	
