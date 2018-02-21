@@ -8,5 +8,4 @@ Dans la version précédente/actuelle les paramètres variables sont :
   
 Dans la version qui va être réalisée nous allons retirer le paramètre "echelle" et ajouter "add_constante". On permettra cependant
 à l'utilisateur de zoomer et se déplacer dans son dessin (la fractale).
-Le nouveau paramètre permet entre autre de multiplier par 4 le nombre
-(a,0)(-a,0)(0,a)(0,-a)        (a,a)(-a,-a)(-a,a)(a,-a)     (0,0)
+Le nouveau paramètre permet entre autre d'augmenter le nombre de valeurs de C
