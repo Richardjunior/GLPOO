@@ -5,6 +5,8 @@ import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +22,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import fractales.fr.fractales.JuliaFractale;
+import fractales.fr.fractales.FractaleService;
 
 
 public class JuliaFrame extends JFrame {
@@ -30,18 +33,20 @@ public class JuliaFrame extends JFrame {
 	private int LARGEUR = 1280; 
 	private int HAUTEUR = 720; 
 	private JuliaFractale julia;
+	private final FractaleService service;
 
 
 	public JuliaFrame(final float reC, final float imC, final int echelle, final float estompage,float couleur,final int iterations) {
-
+		
+		service = FractaleService.getInstance();
 		
 	//Calcul du la fractale
 		julia = new JuliaFractale(reC, imC, echelle, LARGEUR, HAUTEUR, estompage, couleur,iterations);
-		buffer = julia.getImage();
+		buffer = julia.getDrawing();
 		
 	//Initialisation de la fenêtre
 		setTitle("Julia");
-		setPreferredSize(new Dimension(julia.getLargeur(), julia.getHauteur()));
+		setPreferredSize(new Dimension(julia.getWidth(), julia.getHeight()));
 		setMinimumSize(new Dimension(700,700)); //On impose une taille minimale d=pour la fenetre
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 		
@@ -56,8 +61,8 @@ public class JuliaFrame extends JFrame {
 				if (largeur != LARGEUR || hauteur != HAUTEUR) {
 					LARGEUR = largeur;
 					HAUTEUR = hauteur;
-					julia = new JuliaFractale(reC, imC, echelle, LARGEUR, HAUTEUR, estompage,couleur,iterations);
-					buffer = julia.getImage();
+					service.changeSize(julia,LARGEUR, HAUTEUR);
+					buffer = julia.getDrawing();
 
 					setPreferredSize(new Dimension(LARGEUR, HAUTEUR));
 
@@ -65,6 +70,50 @@ public class JuliaFrame extends JFrame {
 					setJMenuBar(menuBar);
 					pack();
 				}
+			}
+		});
+		
+		
+		addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				int keyCode = e.getKeyCode();
+				System.out.println(keyCode);
+				
+				float X = 0, Y = 0;
+				if(keyCode == 38) {        // UP
+					X = 0;
+					Y = -0.1f;
+				}else if(keyCode == 40) {  // DOWN
+					X = 0;
+					Y = 0.1f;
+				}else if(keyCode == 39) {  // RIGHT
+					X = 0.1f;
+					Y = 0;
+				}else if(keyCode == 37){   // LEFT
+					X = -0.1f;
+					Y = 0;
+				}else if(keyCode == 107) { // +
+					service.zoom(julia,true);
+				}else {                    // - : 109
+					service.zoom(julia,false);
+				}
+				
+				if(keyCode < 100) {service.changeCenter(julia,X, Y);}
+				
+				buffer = julia.getDrawing();
+
+				setContentPane(new JLabel(new ImageIcon(buffer)));
+				setJMenuBar(menuBar);
+				pack();
 			}
 		});
 		
@@ -131,7 +180,5 @@ public class JuliaFrame extends JFrame {
 		}
 
 	}
-
-	
 	
 }

@@ -1,7 +1,6 @@
 package fractales.fr.domain;
 
 
-import java.awt.BorderLayout;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +13,6 @@ import fractales.fr.Frame.JuliaFrame;
 import fractales.fr.Frame.MandelbrotFrame;
 import fractales.fr.fractales.JuliaFractale;
 import fractales.fr.fractales.JuliaFusion;
-import fractales.fr.fractales.Mandelbrot;
 
 public class FractaleLauncherFrame {
 	private int p;
@@ -27,7 +25,7 @@ public class FractaleLauncherFrame {
 	public FractaleLauncherFrame(int i) {
 		if(i == 0) {
 			
-			convertTirageToParamJulia(8,50,50,25,50,10,0); // p , q , echelle , couleur , iterations , estompage , null
+			convertTirageToParamJulia(2,8,1,25,10,10,0); // p , q , echelle , couleur , iterations , estompage , constante
 			doLaunchJulia(p, q,echelle,estompage,couleur);
 			
 		}else if(i == 1){
@@ -45,20 +43,20 @@ public class FractaleLauncherFrame {
 	private void fusion() {
 	//JULIA 1
 		convertTirageToParamJulia(8,50,40,25,20,5,0); // p , q , echelle , couleur , iterations , estompage , null
-		float Re_C = (float) ((float)1/2*Math.cos(2*Math.PI*p/q) + (float)1/4*Math.cos(4*Math.PI*p/q) - (float)p/q); 
-		float Im_C = (float) ((float)1/2*Math.sin(2*Math.PI*p/q) + (float)1/4*Math.sin(4*Math.PI*p/q)); 
+		float Re_C = (float) ((float)1/2*Math.cos((float)2*Math.PI*p/q) - (float)1/4*Math.cos((float)4*Math.PI*p/q)); 
+		float Im_C = (float) ((float)1/2*Math.sin((float)2*Math.PI*p/q) - (float)1/4*Math.sin((float)4*Math.PI*p/q)); 
 		
 		JuliaFractale julia1 = new JuliaFractale(Re_C,Im_C,echelle,800,800,estompage,couleur,iterations);
-		BufferedImage image1 = julia1.getImage();
+		BufferedImage image1 = julia1.getDrawing();
 		
 	//JULIA 2
 		
 		convertTirageToParamJulia(2,50,40,25,20,5,0); // p , q , echelle , couleur , iterations , estompage , null
-		Re_C = (float) ((float)1/2*Math.cos(2*Math.PI*p/q) + (float)1/4*Math.cos(4*Math.PI*p/q) - (float)p/q); 
-		Im_C = (float) ((float)1/2*Math.sin(2*Math.PI*p/q) + (float)1/4*Math.sin(4*Math.PI*p/q)); 
+		Re_C = (float) ((float)1/2*Math.cos((float)2*Math.PI*p/q) - (float)1/4*Math.cos((float)4*Math.PI*p/q)); 
+		Im_C = (float) ((float)1/2*Math.sin((float)2*Math.PI*p/q) - (float)1/4*Math.sin((float)4*Math.PI*p/q)); 
 		
 		JuliaFractale julia2 = new JuliaFractale(Re_C,Im_C,echelle,800,800,estompage,couleur,iterations);
-		BufferedImage image2 = julia2.getImage();
+		BufferedImage image2 = julia2.getDrawing();
 		
 	
 	//Fusion
@@ -96,8 +94,11 @@ public class FractaleLauncherFrame {
 	
 
 	private void doLaunchJulia(int p, int q, int ECHELLE, float estompage,float couleur) {
-		final float Re_C = (float) ((float)1/2*Math.cos(2*Math.PI*p/q) + (float)1/4*Math.cos(4*Math.PI*p/q) - (float)p/q); // init by armand : re = 0.00023 im = 0.9
-		final float Im_C = (float) ((float)1/2*Math.sin(2*Math.PI*p/q) + (float)1/4*Math.sin(4*Math.PI*p/q)); // 0.4788888 et -0.577777
+		/*
+		 * On choisit le complexe constant C comme le centre du bulbe p/q translaté de +p/q (donc à la périphérie du bulbe)
+		 */
+		float Re_C = (float) ((float) ((float)1/2*Math.cos((float)2*Math.PI*p/q) - (float)1/4*Math.cos((float)4*Math.PI*p/q)) + (float) 1/q*Math.cos((float)p/q));
+		float Im_C = (float) ((float) ((float)1/2*Math.sin((float)2*Math.PI*p/q) - (float)1/4*Math.sin((float)4*Math.PI*p/q)) + (float) 1/q*Math.sin((float)p/q));
 		
 		new JuliaFrame(Re_C, Im_C, ECHELLE, estompage,couleur,iterations);
 	}
