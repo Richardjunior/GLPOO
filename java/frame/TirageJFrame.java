@@ -49,9 +49,9 @@ public class TirageJFrame extends JFrame {
 
 		JMenuItem test = new JMenuItem(new Test1());
 		menu1.add(test);
-		
-		JMenuItem test2 = new JMenuItem(new Test2());
-		menu1.add(test2);
+
+		JMenuItem recupTirage = new JMenuItem(new RecupTirage());
+		menu1.add(recupTirage);
 
 		// MENU BAR
 		menuBar.add(menu1);
@@ -75,24 +75,23 @@ public class TirageJFrame extends JFrame {
 		}
 	}
 
-	private class Test2 extends AbstractAction {
+	private class RecupTirage extends AbstractAction {
 
-		private Test2() {
-			super("recup données");
+		private RecupTirage() {
+			super("Recup données");
 		}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			LOGGER.debug("Tirage séléctionné : ");
-			
-			Tirage tirage = modele.rowsToTirage(tableau.getSelectedRow());
-			LOGGER.debug(tirage.getB1());
-			LOGGER.debug(tirage.getB2());
-			LOGGER.debug(tirage.getB3());
-			LOGGER.debug(tirage.getB4());
-			LOGGER.debug(tirage.getB5());
-			LOGGER.debug(tirage.getE1());
-			LOGGER.debug(tirage.getE2());
+
+			if (tableau.getSelectedRow() > -1) {
+				LOGGER.debug("Tirage séléctionné : ");
+				
+				Tirage tirage = modele.rowsToTirage(tableau.getSelectedRow());
+				LOGGER.debug(tirage.getB1() + " " + tirage.getB2() + " " + tirage.getB3() + " " + tirage.getB4() + " "
+						+ tirage.getB5() + " " + tirage.getE1() + " " + tirage.getE2());
+			} else
+				LOGGER.debug("Aucun tirage séléctionné !");
 
 		}
 
