@@ -1,0 +1,11 @@
+Les modifications vont porter sur les paramètres variables
+Dans la version précédente/actuelle les paramètres variables sont : 
+  - (p,q) pour caractériser C
+  - "echelle" pour zoomer
+  - "iterations" pour augmenter le nombre de couleurs différentes
+  - "couleur" et estompage qui agissent sur l'aspect des couleurs
+  - null qui ne correpond pas à un paramètre pour le moment
+  
+Dans la version qui va être réalisée nous allons retirer le paramètre "echelle" et ajouter "add_constante". On permettra cependant
+à l'utilisateur de zoomer et se déplacer dans son dessin (la fractale).
+Le nouveau paramètre permet entre autre d'augmenter le nombre de valeurs de C
