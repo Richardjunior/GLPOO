@@ -38,7 +38,7 @@ public class Householder extends JComponent
 		
 		householder();
 		
-		JFrame frame = new JFrame("Newton"); // Instance de la fenetre
+		JFrame frame = new JFrame("Householder"); // Instance de la fenetre
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Pour fermer la fenetre on pourra cliquer sur la croix rouge
 		frame.setResizable(true); // On pourra resizer la fenetre
 		frame.getContentPane().add(this); // ??
