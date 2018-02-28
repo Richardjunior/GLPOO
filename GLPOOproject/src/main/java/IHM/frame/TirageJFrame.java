@@ -3,6 +3,8 @@ package IHM.frame;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.JFrame;
@@ -47,12 +49,12 @@ public class TirageJFrame extends JFrame {
 
 		// MENU 1
 		JMenu menu1 = new JMenu("Fichier");
-
-		JMenuItem test = new JMenuItem(new Test1());
-		menu1.add(test);
 		
 		JMenuItem test2 = new JMenuItem(new Test2());
 		menu1.add(test2);
+		
+		JMenuItem backMenu = new JMenuItem(new BackAction("Go back to the previous menu"));
+		menu1.add(backMenu);
 
 		// MENU BAR
 		menuBar.add(menu1);
@@ -60,20 +62,18 @@ public class TirageJFrame extends JFrame {
 		setJMenuBar(menuBar);
 	}
 
-	private class Test1 extends AbstractAction {
-
-		private Test1() {
-			super("tryit");
+	private class BackAction extends AbstractAction{
+		private BackAction(String string) {
+    		super(string);
+    	}
+		public void actionPerformed(ActionEvent arg0) {
+			dispose();
+			WelcomeFrame f = new WelcomeFrame();
+			f.setVisible(true);
 		}
-
-		public void actionPerformed(ActionEvent e) {
-			setTitle("Liste des tirages (v2)");
-			setPreferredSize(new Dimension(400, 500));
-			setDefaultCloseOperation(EXIT_ON_CLOSE);
-
-			pack();
-		}
-	}
+    	
+    }
+	
 
 	private class Test2 extends AbstractAction {
 
@@ -81,11 +81,24 @@ public class TirageJFrame extends JFrame {
 			super("recup données");
 		}
 		public void actionPerformed(ActionEvent e) {
+			if (tableau.getSelectedRow() > -1) {
+				//LOGGER.debug("Tirage séléctionné : ");
 			
-			Tirage tirage = modele.rowsToTirage(tableau.getSelectedRow());
-			dispose();
-			new TirageToFractale(tirage);
-
+				List<Tirage> tirages = new ArrayList<Tirage>();
+				
+				
+				final int[] selection = tableau.getSelectedRows();
+	
+				for (int i = selection.length - 1; i >= 0; i--) {
+					Tirage tirage = modele.rowToTirage(selection[i]);
+					tirages.add(tirage);
+				}
+				
+				dispose();
+				new TirageToFractale(tirages);
+			}else {
+				//LOGGER.debug("Aucun tirage séléctionné !");
+			}
 		}
 
 	}

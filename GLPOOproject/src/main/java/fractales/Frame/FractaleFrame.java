@@ -1,5 +1,6 @@
 package fractales.Frame;
 
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -15,6 +16,8 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
@@ -33,99 +36,49 @@ import javax.swing.JTextField;
 
 import IHM.frame.TirageJFrame;
 import fractales.fractales.JuliaFractale;
+import fractales.fractales.Fractale;
 import fractales.fractales.FractaleService;
 
 
-public class JuliaFrame extends JFrame {
+public class FractaleFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private BufferedImage buffer;
+	private List<BufferedImage> images;
 	private String fileName;
-	private int LARGEUR = 1200; 
-	private int HAUTEUR = 700; 
-	private JuliaFractale julia;
+	private int WIDTH ; 
+	private int HEIGHT ; 
+	private List<Fractale> fractales;
 	private final FractaleService service;
 	
 	final JDialog dialog;
+	final JMenuBar menuBar;
 
 
-	public JuliaFrame(final float reC, final float imC, final int echelle, final float estompage,float couleur,final int iterations) {
+	public FractaleFrame(List<Fractale> fractales,int WIDTH,int HEIGHT) {
+		this.fractales = fractales;
+		this.WIDTH = WIDTH;
+		this.HEIGHT = HEIGHT;
+		buffer = getBuffer();
 		
 		service = FractaleService.getInstance();
 		
-	//Calcul du la fractale
-		julia = new JuliaFractale(reC, imC, echelle, LARGEUR, HAUTEUR, estompage, couleur,iterations);
-		buffer = julia.getDrawing();
-		
 	//Initialisation de la fenêtre
-		setTitle("Julia");
-		setPreferredSize(new Dimension(julia.getWidth(), julia.getHeight()));
-		setMinimumSize(new Dimension(700,700)); //On impose une taille minimale d=pour la fenetre
+		setTitle("Fractale Generator");
+		setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		setMinimumSize(new Dimension(700,700)); //On impose une taille minimale pour la fenetre
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 		
 		
 		
     //Ajout du menu dans la fenetre
-		final JMenuBar menuBar = configureMenu();
+		menuBar = configureMenu();
 
 	//Permet de redimensionner la fenetre et de recalculer le dessin en conséquence
-		addComponentListener(new ComponentAdapter() {
-			public void componentResized(ComponentEvent e) {
-				int largeur = getWidth();
-				int hauteur = getHeight();
-				if (largeur != LARGEUR || hauteur != HAUTEUR) {
-					LARGEUR = largeur;
-					HAUTEUR = hauteur;
-					service.changeSize(julia,LARGEUR, HAUTEUR);
-					buffer = julia.getDrawing();
-
-					setPreferredSize(new Dimension(LARGEUR, HAUTEUR));
-
-					setContentPane(new JLabel(new ImageIcon(buffer)));
-					setJMenuBar(menuBar);
-					pack();
-				}
-			}
-		});
+		addComponentListener(new Adapter());
 		
-		
-		addKeyListener(new KeyListener() {
-			
-			public void keyPressed(KeyEvent e) {
-				int keyCode = e.getKeyCode();
-				float X = 0, Y = 0;
-				final float coef = service.getTRANSLATION_COEF();
-				if(keyCode == 38) {        // UP
-					X = 0;
-					Y = -coef;
-				}else if(keyCode == 40) {  // DOWN
-					X = 0;
-					Y = coef;
-				}else if(keyCode == 39) {  // RIGHT
-					X = coef;
-					Y = 0;
-				}else if(keyCode == 37){   // LEFT
-					X = -coef;
-					Y = 0;
-				}else if(keyCode == 107 || keyCode == 61) { // + pavé numérique ou non
-					service.zoom(julia,true);
-				}else if (keyCode == 109 || keyCode == 54){  // - 
-					service.zoom(julia,false);
-				}
-				
-				if(keyCode == 37 || keyCode == 38 ||keyCode == 39 ||keyCode == 40 ) {service.changeCenter(julia,X, Y);}
-				
-				buffer = julia.getDrawing();
-
-				setContentPane(new JLabel(new ImageIcon(buffer)));
-				setJMenuBar(menuBar);
-				pack();
-			}
-
-			public void keyReleased(KeyEvent arg0) {}
-
-			public void keyTyped(KeyEvent arg0) {}
-		});
+	//Pour zoomer ou translater
+		addKeyListener(new Key_Listener());
 		
 		
     //Ajout des composants dans la fenetre
@@ -154,6 +107,16 @@ public class JuliaFrame extends JFrame {
         dialog.setVisible(true);
 
 
+	}
+
+	private BufferedImage getBuffer() {
+		List<BufferedImage> images = new ArrayList<BufferedImage>();
+		for(Fractale f : fractales) {
+			images.add(f.getDrawing());
+		}
+		this.images = images;
+		BufferedImage buffer = FractaleService.getInstance().joinFractales(images);
+		return buffer;
 	}
 
 	private JMenuBar configureMenu() {
@@ -230,5 +193,79 @@ public class JuliaFrame extends JFrame {
 		}
     	
     }
+	
+	private class Adapter extends ComponentAdapter {
+		public void componentResized(ComponentEvent e) {
+			int width = getWidth();
+			int height = getHeight();
+			if (width != WIDTH || height != HEIGHT) {
+				WIDTH = width;
+				HEIGHT = height;
+				
+				images.clear();
+				for(Fractale fractale : fractales) {
+					service.changeSize(fractale,width, height);
+					images.add(fractale.getDrawing());
+				}
+				buffer = FractaleService.getInstance().joinFractales(images);
+
+				setPreferredSize(new Dimension(width, height));
+
+				setContentPane(new JLabel(new ImageIcon(buffer)));
+				setJMenuBar(menuBar);
+				pack();
+			}
+		}
+	}
+	
+	private class Key_Listener implements KeyListener {
+		
+		public void keyPressed(KeyEvent e) {
+			int keyCode = e.getKeyCode();
+			float X = 0, Y = 0;
+			final float coef = service.getTRANSLATION_COEF();
+			if(keyCode == 38) {        // UP
+				X = 0;
+				Y = -coef;
+			}else if(keyCode == 40) {  // DOWN
+				X = 0;
+				Y = coef;
+			}else if(keyCode == 39) {  // RIGHT
+				X = coef;
+				Y = 0;
+			}else if(keyCode == 37){   // LEFT
+				X = -coef;
+				Y = 0;
+			}else if(keyCode == 107 || keyCode == 61) { // + pavé numérique ou non
+				for(Fractale fractale : fractales) {
+					service.zoom(fractale,true);
+				}
+			}else if (keyCode == 109 || keyCode == 54){  // - 
+				for(Fractale fractale : fractales) {
+					service.zoom(fractale,false);
+				}
+			}
+			
+			if(keyCode == 37 || keyCode == 38 ||keyCode == 39 ||keyCode == 40 ) {
+				for(Fractale fractale : fractales) {
+					service.changeCenter(fractale,X, Y);
+				}
+			}
+			images.clear();
+			for(Fractale fractale : fractales) {
+				images.add(fractale.getDrawing());
+			}
+			 buffer = FractaleService.getInstance().joinFractales(images);
+
+			setContentPane(new JLabel(new ImageIcon(buffer)));
+			setJMenuBar(menuBar);
+			pack();
+		}
+
+		public void keyReleased(KeyEvent arg0) {}
+
+		public void keyTyped(KeyEvent arg0) {}
+	}
 }
 	
+

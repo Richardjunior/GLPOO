@@ -8,6 +8,14 @@ import java.util.Map;
 
 public class JuliaFractale implements Fractale {
 
+	@Override
+	public String toString() {
+		return "JuliaFractale [width=" + width + ", height=" + height + ", iterations=" + iterations + ", buffer="
+				+ buffer + ", Im_C=" + Im_C + ", Re_C=" + Re_C + ", scale=" + scale + ", estompage=" + estompage
+				+ ", COLOR=" + COLOR + ", centreX=" + centreX + ", centreY=" + centreY + ", maxX=" + maxX + ", minX="
+				+ minX + ", maxY=" + maxY + ", minY=" + minY + "]";
+	}
+
 	private int width; 
 	private int height;
 	private int iterations; 
@@ -41,7 +49,7 @@ public class JuliaFractale implements Fractale {
 		this.height = height;
 		this.estompage = estompage;
 		this.COLOR = COLOR;
-		this.iterations = iterations;
+		this.iterations = 200;
 		
 		centreX = 0; 
 		centreY = 0;
@@ -96,7 +104,7 @@ public class JuliaFractale implements Fractale {
 			return 0x00000000; // Après 100 itérations la suite (avec cette valeur de z0) ne semble pas
 								// diverger donc on considère qu'elle converge (parfois approximation fausse) =>
 								// noir
-		return Color.HSBtoRGB(COLOR - (float) estompage * n / iterations, 0.6f, 1);
+		return Color.HSBtoRGB(0.5f + COLOR - (float) estompage * n / iterations, 0.6f, 1);
 	}
 
 	public int getWidth() {

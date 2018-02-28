@@ -13,7 +13,7 @@ public class ModeleDynamique extends AbstractTableModel {
 
 	private final String[] header;
 
-	private String fileName = "src/main/euromillions_4.csv";
+	private String fileName = "src/main/ressources/euromillions_4.csv";
 	private CsvTirageDao dao = new CsvTirageDao(fileName);
 	final List<Tirage> tirages;
 
@@ -89,7 +89,7 @@ public class ModeleDynamique extends AbstractTableModel {
 	 * tirages.remove(rowIndex); fireTableRowsDeleted(rowIndex, rowIndex); }
 	 */
 	
-	public Tirage rowsToTirage(int rowIndex) {
+	public Tirage rowToTirage(int rowIndex) {
 		final SimpleTirage tirage = new SimpleTirage();
 		
 		tirage.setB1(tirages.get(rowIndex).getB1());

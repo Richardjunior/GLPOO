@@ -3,6 +3,7 @@ package fractales.fractales;
 import java.awt.image.BufferedImage;
 
 public interface Fractale {
+	public BufferedImage getDrawing();
 	
 	public int getWidth() ;
 
@@ -48,4 +49,5 @@ public interface Fractale {
 
 	public void calcMinMax();
 
+	public String toString();
 }

@@ -2,6 +2,12 @@ package IHM.domain;
 
 public class SimpleTirage implements Tirage {
 
+	@Override
+	public String toString() {
+		return "SimpleTirage [b1=" + b1 + ", b2=" + b2 + ", b3=" + b3 + ", b4=" + b4 + ", b5=" + b5 + ", e1=" + e1
+				+ ", e2=" + e2 + "]";
+	}
+
 	private int b1;
 	private int b2;
 	private int b3;
