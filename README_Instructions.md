@@ -1,15 +1,15 @@
 #README : A propos de la version 28/02/2018
 _____
-Le programme **se lance via la classe LauncherIHM** dans le package *"main/java/IHM/"*.
+Le programme **se lance via la classe Launcher** dans le package *"main/java/"*.
 
 
-Cette classe crée une nouvelle instance de "WelcomeFrame" qui est la page d'acceuil. 
+Cette classe crée une nouvelle instance de "WelcomeJFrame" qui est la page d'acceuil. 
 
 
 - En cliquant sur "Jouer" une nouvelle instance de **TirageFrame** est créée
 - Les autres botons ne sont pas encore implémentés
 
-La classe **TirageFrame** affiche la liste des tirages disponibles dans le fichier csv fourni. Il est possible, via le menu, de retourner à la page d'acceuil *Go back to previous menu* ou de générer une image en sélectionnant au moins une ligne avant de cliquer sur *Recup données* -> création d'une instance de **FractaleFrame**.
+La classe **TirageFrame** affiche la liste des tirages disponibles dans le fichier csv fourni. Il est possible, via le menu, de retourner à la page d'acceuil *Go back to previous menu* ou de générer une image en sélectionnant au moins une ligne avant de cliquer sur *Dessiner* -> demande  le type de fractale à dessiner puis création d'une instance de **FractaleFrame**.
 
 A la création du dessin une boite de dialogue s'affiche pour indiquer les options clavier. A savoir zoomer ou se translater. 
 
@@ -22,7 +22,7 @@ _____
 
 - **Partie IHM** : 
     - Donner la possibilité de choisir ses propres numéros
-    - Ajouter le choix de générer des fractales de Julia ou bien un MANDELBROT ou bien etc...
+    - Ajouter le choix de générer des fractales de Newton et autres .... (Julia et Mandelbrot dans version du 2 mars 2018)
 
 
 - **Partie Fractales** : 
