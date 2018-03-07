@@ -2,6 +2,7 @@ package frames;
 
 
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
@@ -18,18 +19,20 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import fractales.Fractale;
 import fractales.FractaleService;
 
 
-public class FractaleFrame extends JFrame {
+public class FractaleJFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private BufferedImage buffer;
@@ -41,9 +44,9 @@ public class FractaleFrame extends JFrame {
 	
 	
 	final JMenuBar menuBar;
-
-
-	public FractaleFrame(List<Fractale> fractales,int WIDTH,int HEIGHT) {
+	private JPanel panel;
+	
+	public FractaleJFrame(List<Fractale> fractales,int WIDTH,int HEIGHT) {
 		this.fractales = fractales;
 		this.WIDTH = WIDTH;
 		this.HEIGHT = HEIGHT;
@@ -52,10 +55,20 @@ public class FractaleFrame extends JFrame {
 		
 	//Initialisation de la fenêtre
 		setTitle("Fractale Generator");
-		setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		//setBounds(0,0,HEIGHT,WIDTH);
 		setMinimumSize(new Dimension(700,700)); //On impose une taille minimale pour la fenetre
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+		//fractaleJFrame.getContentPane().setLayout(null);
 		
+	//Ajout d'un bandeau d'action
+		panel = new JPanel();
+		//panel.setLayout(null);
+		JButton backButton = new JButton(new BackAction("Back"));
+		panel.add(backButton);
+		//backButton.setBounds(0, 0, 50, 31);
+		
+		JButton reinitialiser = new JButton(new reinitialiser());
+		panel.add(reinitialiser);
 		
 		
     //Ajout du menu dans la fenetre
@@ -69,8 +82,11 @@ public class FractaleFrame extends JFrame {
 		
 		
     //Ajout des composants dans la fenetre
-		getContentPane().add(new JLabel(new ImageIcon(buffer)));
+		add(new JLabel(new ImageIcon(buffer)));
+		
 		setJMenuBar(menuBar);
+		
+		add(panel,BorderLayout.SOUTH);
 		
     //Affichage
 		pack();
@@ -84,8 +100,6 @@ public class FractaleFrame extends JFrame {
         						     
         						      + "\n\n\nCAUTION : To have a good quality of image \nplease don't zoom too much!"
         						     );
-
-
 	}
 
 	private BufferedImage getBuffer() {
@@ -105,10 +119,11 @@ public class FractaleFrame extends JFrame {
 		menuBar.add(fichierMenu);
 		JMenuItem save = new JMenuItem(new SaveAction("Save"));
 		fichierMenu.add(save);
+		fichierMenu.addSeparator();
 		JMenuItem close = new JMenuItem(new CloseAction("Quit"));
 		fichierMenu.add(close);
-		JMenuItem backMenu = new JMenuItem(new BackAction("Go back to the previous menu"));
-		fichierMenu.add(backMenu);
+		//JMenuItem backMenu = new JMenuItem(new BackAction("Go back to the previous menu"));
+		//fichierMenu.add(backMenu);
 		return menuBar;
 	}
 
@@ -185,10 +200,25 @@ public class FractaleFrame extends JFrame {
 				setPreferredSize(new Dimension(width, height));
 
 				setContentPane(new JLabel(new ImageIcon(buffer)));
+				
 				setJMenuBar(menuBar);
+				
 				pack();
 			}
 		}
+	}
+	
+	private class reinitialiser extends AbstractAction {
+
+		public reinitialiser() {
+			super("Réinitialiser");
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			getBuffer();
+		}
+		
 	}
 	
 	private class Key_Listener implements KeyListener {
@@ -233,7 +263,9 @@ public class FractaleFrame extends JFrame {
 			 buffer = FractaleService.getInstance().joinFractales(images);
 
 			setContentPane(new JLabel(new ImageIcon(buffer)));
+			getContentPane().add(panel,BorderLayout.SOUTH);
 			setJMenuBar(menuBar);
+			
 			pack();
 		}
 
