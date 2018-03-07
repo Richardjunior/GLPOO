@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dao.Tirage;
-import frames.FractaleFrame;
+import frames.FractaleJFrame;
 
 public class TirageToFractaleConverter {
 	private int p; // => b1
