@@ -1,7 +1,4 @@
 
-
-
-
 import frames.WelcomeJFrame;
 
 public class Launcher {
