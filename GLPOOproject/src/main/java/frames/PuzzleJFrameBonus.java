@@ -51,34 +51,34 @@ public class PuzzleJFrameBonus extends JFrame implements ActionListener {
 
 	public PuzzleJFrameBonus() {
 
-		super("pic puzzle");
+		super("Bonus Puzzle");
 
 		b1 = new JButton(ic1);
-		b1.setBounds(10, 80, 150, 150);
+		b1.setBounds(10, 80, 100, 100);
 		b2 = new JButton(ic2);
-		b2.setBounds(110, 80, 150, 150);
+		b2.setBounds(110, 80, 100, 100);
 		b3 = new JButton(ic3);
-		b3.setBounds(210, 80, 150, 150);
+		b3.setBounds(210, 80, 100, 100);
 		b4 = new JButton(ic4);
-		b4.setBounds(10, 180, 150, 150);
+		b4.setBounds(10, 180, 100, 100);
 		b5 = new JButton(ic5);
-		b5.setBounds(110, 180, 150, 150);
+		b5.setBounds(110, 180, 100, 100);
 		b6 = new JButton(ic6);
-		b6.setBounds(210, 180, 150, 150);
+		b6.setBounds(210, 180, 100, 100);
 		b7 = new JButton(ic7);
-		b7.setBounds(10, 280, 150, 150);
+		b7.setBounds(10, 280, 100, 100);
 		b8 = new JButton(ic8);
-		b8.setBounds(110, 280, 150, 150);
+		b8.setBounds(110, 280, 100, 100);
 		b9 = new JButton(ic9);
-		b9.setBounds(210, 280, 150, 150);
+		b9.setBounds(210, 280, 100, 100);
 		sample = new JButton(samicon1);
 		sample.setBounds(380, 100, 200, 200);
 
-		JLabel l1 = new JLabel("Sample:");
+		JLabel l1 = new JLabel("Autres Puzzle:");
 		l1.setBounds(330, 200, 70, 20);
-		JLabel l2 = new JLabel("NOTE: icon has power to swap with neighbour icon=");
+		JLabel l2 = new JLabel("Information:Cela vous donnera");
 		l2.setBounds(5, 15, 500, 20);
-		JLabel l3 = new JLabel("click sample picture to next puzzle");
+		JLabel l3 = new JLabel("Cliquez ici pour un autre Puzzle");
 		l3.setBounds(380, 320, 200, 20);
 		l3.setForeground(Color.red);
 
@@ -112,8 +112,10 @@ public class PuzzleJFrameBonus extends JFrame implements ActionListener {
 
 		sample.addActionListener(this);
 		setLayout(null);
-		setSize(600, 500);
+		setSize(1068, 576);
 		setVisible(true);
+
+		this.setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
