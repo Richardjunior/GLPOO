@@ -19,6 +19,7 @@ public class PuzzleJFrameBonus extends JFrame implements ActionListener {
 	Icon samicon1 = new ImageIcon("src/main/ressources/main.jpg");
 	Icon samicon2 = new ImageIcon("src/main/ressources/main2.jpg");
 	Icon samicon3 = new ImageIcon("src/main/ressources/main3.jpg");
+	//Puzzle one
 	Icon ic1 = new ImageIcon("src/main/ressources/1.jpg");
 	Icon ic2 = new ImageIcon("src/main/ressources/5.jpg");
 	Icon ic3 = new ImageIcon("src/main/ressources/2.jpg");
@@ -28,7 +29,8 @@ public class PuzzleJFrameBonus extends JFrame implements ActionListener {
 	Icon ic7 = new ImageIcon("src/main/ressources/8.jpg");
 	Icon ic8 = new ImageIcon("src/main/ressources/9.jpg");
 	Icon ic9 = new ImageIcon("src/main/ressources/3.jpg");
-
+	
+	//Puzzle two
 	Icon ic11 = new ImageIcon("src/main/ressources/12.jpg");
 	Icon ic12 = new ImageIcon("src/main/ressources/13.jpg");
 	Icon ic13 = new ImageIcon("src/main/ressources/16.jpg");
@@ -38,17 +40,18 @@ public class PuzzleJFrameBonus extends JFrame implements ActionListener {
 	Icon ic17 = new ImageIcon("src/main/ressources/17.jpg");
 	Icon ic18 = new ImageIcon("src/main/ressources/15.jpg");
 	Icon ic19 = new ImageIcon("src/main/ressources/18.jpg");
-
-	Icon ic21 = new ImageIcon("src/main/ressources/24.jpg");
-	Icon ic22 = new ImageIcon("src/main/ressources/25.jpg");
-	Icon ic23 = new ImageIcon("src/main/ressources/21.jpg");
-	Icon ic24 = new ImageIcon("src/main/ressources/27.jpg");
-	Icon ic25 = new ImageIcon("src/main/ressources/23.jpg");
-	Icon ic26 = new ImageIcon("src/main/ressources/29.jpg");
-	Icon ic27 = new ImageIcon("src/main/ressources/28.jpg");
-	Icon ic28 = new ImageIcon("src/main/ressources/22.jpg");
-	Icon ic29 = new ImageIcon("src/main/ressources/26.jpg");
-
+/*
+	//Puzzle three
+	Icon ic21 = new ImageIcon("src/main/ressources/...jpg");
+	Icon ic22 = new ImageIcon("src/main/ressources/...jpg");
+	Icon ic23 = new ImageIcon("src/main/ressources/...jpg");
+	Icon ic24 = new ImageIcon("src/main/ressources/...jpg");
+	Icon ic25 = new ImageIcon("src/main/ressources/...jpg");
+	Icon ic26 = new ImageIcon("src/main/ressources/...jpg");
+	Icon ic27 = new ImageIcon("src/main/ressources/...jpg");
+	Icon ic28 = new ImageIcon("src/main/ressources/...jpg");
+	Icon ic29 = new ImageIcon("src/main/ressources/...jpg");
+*/
 	public PuzzleJFrameBonus() {
 
 		super("Bonus Puzzle");
@@ -74,11 +77,11 @@ public class PuzzleJFrameBonus extends JFrame implements ActionListener {
 		sample = new JButton(samicon1);
 		sample.setBounds(380, 100, 200, 200);
 
-		JLabel l1=new JLabel("Sample:");  
+		JLabel l1=new JLabel("Puzzle:");  
 		l1.setBounds(330,200,70,20);  
-		JLabel l2=new JLabel("NB:C'est uniquement cette image qui bouge avec les autres");  
+		JLabel l2=new JLabel("Notice: Une seule image tourne ->>>");  
 		l2.setBounds(5,15,500,20);  
-		JLabel l3=new JLabel("Cliquer ici pour changer de Puzzle");  
+		JLabel l3=new JLabel("Cliquer le puzzle  pour changer");  
 		l3.setBounds(380,320,200,20);  
 		l3.setForeground(Color.red);  
 
@@ -269,7 +272,7 @@ public class PuzzleJFrameBonus extends JFrame implements ActionListener {
 				starB.setIcon(ic10);
 			} // eof else
 			else {
-				sample.setIcon(samicon3);
+				/*sample.setIcon(samicon3);
 				b1.setIcon(ic21);
 				b2.setIcon(ic22);
 				b3.setIcon(ic23);
@@ -280,7 +283,7 @@ public class PuzzleJFrameBonus extends JFrame implements ActionListener {
 				b8.setIcon(ic28);
 				b9.setIcon(ic29);
 				star = b6.getIcon();
-				starB.setIcon(ic20);
+				starB.setIcon(ic20);*/
 			} // eof else
 
 		}
