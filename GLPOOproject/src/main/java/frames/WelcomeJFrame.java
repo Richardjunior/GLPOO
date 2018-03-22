@@ -202,10 +202,10 @@ public class WelcomeJFrame extends JFrame {
 
 			switch (comboBox.getSelectedIndex()) {
 			case 0:
-				frmMainMenu.dispose();
-				JFrame f = new TirageJFrameBonus();
-				f.setVisible(true);
-				pack();
+				// TODO Auto-generated method stub
+				System.out.println("Bouton Puzzle");
+				JFrame frame = new PuzzleJFrameBonus();
+				frame.setVisible(true);
 				break;
 			}
 

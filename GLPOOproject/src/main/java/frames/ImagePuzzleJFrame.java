@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 /*
  * Cette classe me permet de gérer l'affichage des images du puzzle
  */
-public class ImagePuzzleJFrame extends JFrame {
+public class ImagePuzzleJFrame extends JFrame  {
 
 	public ImagePuzzleJFrame() {
 
