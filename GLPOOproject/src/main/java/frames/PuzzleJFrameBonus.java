@@ -74,13 +74,13 @@ public class PuzzleJFrameBonus extends JFrame implements ActionListener {
 		sample = new JButton(samicon1);
 		sample.setBounds(380, 100, 200, 200);
 
-		JLabel l1 = new JLabel("Autres Puzzle:");
-		l1.setBounds(330, 200, 70, 20);
-		JLabel l2 = new JLabel("Information:Cela vous donnera");
-		l2.setBounds(5, 15, 500, 20);
-		JLabel l3 = new JLabel("Cliquez ici pour un autre Puzzle");
-		l3.setBounds(380, 320, 200, 20);
-		l3.setForeground(Color.red);
+		JLabel l1=new JLabel("Sample:");  
+		l1.setBounds(330,200,70,20);  
+		JLabel l2=new JLabel("NB:C'est uniquement cette image qui bouge avec les autres");  
+		l2.setBounds(5,15,500,20);  
+		JLabel l3=new JLabel("Cliquer ici pour changer de Puzzle");  
+		l3.setBounds(380,320,200,20);  
+		l3.setForeground(Color.red);  
 
 		starB = new JButton(ic0);
 		starB.setBounds(330, 5, 50, 50);
